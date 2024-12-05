@@ -1,0 +1,5 @@
+package com.Project.QuizApp.constant;
+
+public class QuestionWrapper {
+
+}

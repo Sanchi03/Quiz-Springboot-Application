@@ -1,0 +1,51 @@
+package com.Project.QuizApp.Service;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+
+import com.Project.QuizApp.DAO.QuestionDao;
+import com.Project.QuizApp.DAO.QuizDao;
+import com.Project.QuizApp.constant.Question;
+import com.Project.QuizApp.constant.Quiz;
+
+@Service
+public class QuizService {
+
+	@Autowired
+	QuizDao quizDao;
+
+	@Autowired
+	QuestionDao questionDao;
+
+	public ResponseEntity<String> createQuiz(String category, int numQ, String title) {
+		//to set the questions we need to first fetch the list of questions from the DAO
+		Pageable pageable = PageRequest.of(0, numQ); // numQ is the limit
+		List<Question> questions = questionDao.findRandomQuestionsByCategory(category, pageable);
+		//List<Question> questions=questionDao.findRandomQuestionsByCategory(category,numQ);
+		Quiz quiz=new Quiz();
+		quiz.setTitle(title);
+		quiz.setQuestions(questions);
+		quizDao.save(quiz);
+		return new ResponseEntity<>("Success", HttpStatus.CREATED);
+	}
+
+	/*
+	 * public ResponseEntity<String> createQuiz(String category, int numQ, String
+	 * title) {
+	 * 
+	 * 
+	 * List<Question> questions=questionDao.findQuestionByCategory(category, numQ);
+	 * Quiz quiz=new Quiz(); quiz.setTitle(title); quiz.setQuestions(questions);
+	 * quizDao.save(quiz); return new
+	 * ResponseEntity<>("Success",HttpStatus.CREATED);
+	 * 
+	 * }
+	 */
+
+}
