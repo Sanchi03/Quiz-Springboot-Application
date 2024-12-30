@@ -7,7 +7,7 @@ import jakarta.persistence.Id;
 import lombok.Data;
 
 @Data		//comes from lombok no need to create getters and setters and toString
-@Entity		//
+@Entity		//to mark the class as JPA entity
 public class Question {
 
 	@Id
